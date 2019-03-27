@@ -1,11 +1,13 @@
 package db
 
 import (
+	"log"
+
 	"github.com/jinzhu/gorm"
 )
 
 // Init ...
-func Init(db *gorm.DB, t interface{}) {
+func Init(db *gorm.DB, t ...interface{}) {
 
 	defer db.Close()
 
@@ -13,10 +15,15 @@ func Init(db *gorm.DB, t interface{}) {
 
 }
 
-// CreateMigrate ...,HasTable
-func CreateMigrate(db *gorm.DB, t interface{}) {
+// CreateMigrate ...
+func CreateMigrate(db *gorm.DB, t ...interface{}) {
 
 	defer db.Close()
 
-	db.AutoMigrate(t)
+	for _, n := range t {
+		d := db.AutoMigrate(n)
+		if d.Error != nil {
+			log.Fatal(d.Error)
+		}
+	}
 }

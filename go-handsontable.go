@@ -12,12 +12,7 @@ import (
 
 func main() {
 
-	// Define struct
-	type table struct {
-		gorm.Model
-		Name string
-		Age  int
-	}
+	//Exemplo para criar migration
 
 	// Conn database
 	conn, err := gorm.Open("mysql", "root@/test")
@@ -25,5 +20,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	db.Init(conn, &table{})
+	// Define struct
+	type table struct {
+		gorm.Model
+		Name string
+		Age  int
+	}
+
+	db.CreateMigrate(conn, &table{})
+
 }
