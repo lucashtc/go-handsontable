@@ -8,22 +8,22 @@ import (
 )
 
 // GetAll return all register database
-func GetAll(db *gorm.DB) (*[]OS, error) {
+func GetAll(db *gorm.DB) ([]OS, error) {
 	OS := []OS{}
 	if result := db.First(&OS); result.Error != nil {
 		return nil, result.Error
 	}
-	return &OS, nil
+	return OS, nil
 }
 
 // GetNome Find register
-func GetNome(db *gorm.DB, nome string) (*[]OS, error) {
+func GetNome(db *gorm.DB, nome string) ([]OS, error) {
 	OS := []OS{}
 	db.Where("nomeCliente = ?", nome).Find(&OS)
 	if db.Error != nil {
 		return nil, db.Error
 	}
-	return &OS, nil
+	return OS, nil
 }
 
 // DeleteID ...
@@ -47,4 +47,16 @@ func Get(db *gorm.DB, f map[string]interface{}) (*[]OS, error) {
 	query.Find(&OS)
 
 	return &OS, nil
+}
+
+// Insert ...
+func Insert(db *gorm.DB, OS OS) (OS, error) {
+	result := OS
+
+	db.Create(&result)
+	if db.Error != nil {
+		return result, db.Error
+	}
+
+	return result, nil
 }

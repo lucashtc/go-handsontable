@@ -7,7 +7,7 @@ import (
 // OS ...
 type OS struct {
 	gorm.Model
-	numeroOs    int
-	nomeCliente string
-	cnpj14      int
+	NumeroOs    int
+	NomeCliente string
+	Cnpj14      int
 }

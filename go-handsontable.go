@@ -2,8 +2,6 @@ package main
 
 import (
 	"log"
-
-	// Drive
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/lucashtc/go-handsontable/app/db"
 
