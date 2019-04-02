@@ -24,5 +24,25 @@ func TestGetAll(t *testing.T) {
 }
 
 func TestInsert(t *testing.T) {
-	
+	data := []OS{
+		OS{
+			NomeCliente: "Lucas Da costa",
+			NumeroOs:    11,
+			Cnpj14:      123123123,
+		},
+		OS{
+			NomeCliente: "Outro Lucas",
+			NumeroOs:    12,
+			Cnpj14:      33213,
+		},
+	}
+
+	for _, os := range data {
+		conn := conn()
+		_, err := Insert(conn, os)
+		if err != nil {
+			t.Fatal(err)
+		}
+	}
+
 }
