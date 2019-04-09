@@ -3,12 +3,14 @@ package db
 import (
 	"log"
 	"testing"
+	"fmt"
 
 	"github.com/jinzhu/gorm"
+	"github.com/stretchr/testify/assert"
 )
 
 func conn() *gorm.DB {
-	conn, err := gorm.Open("mysql", "root@/test")
+	conn, err := gorm.Open("mysql", "root@/test?parseTime=true")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -44,5 +46,24 @@ func TestInsert(t *testing.T) {
 			t.Fatal(err)
 		}
 	}
+}
 
+func TestUpdate(t *testing.T) {
+	conn := conn()
+
+	os, err := GetAll(conn)
+	if err != nil {
+		assert.Error(t, err,"fail to get all data")
+	}
+
+	for i, v := range os {
+		
+		v.NomeCliente = fmt.Sprintf("addteste %d",i)
+		v.Cnpj14 = 1234567890
+
+		err = Update(conn, v)
+		if err != nil {
+			assert.Error(t,err,"fail to perfom update")
+		}
+	}	
 }

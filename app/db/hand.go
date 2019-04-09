@@ -1,19 +1,20 @@
 package db
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/jinzhu/gorm"
+	"github.com/pkg/errors"
 )
 
 // GetAll return all register database
 func GetAll(db *gorm.DB) ([]OS, error) {
-	OS := []OS{}
-	if result := db.First(&OS); result.Error != nil {
-		return nil, result.Error
+	var os []OS
+	db.Find(&os)
+	if db.Error != nil {
+		return nil, errors.Wrap(db.Error,"fail to get all")
 	}
-	return OS, nil
+	return os, nil
 }
 
 // GetNome Find register
@@ -21,7 +22,7 @@ func GetNome(db *gorm.DB, nome string) ([]OS, error) {
 	OS := []OS{}
 	db.Where("nomeCliente = ?", nome).Find(&OS)
 	if db.Error != nil {
-		return nil, db.Error
+		return nil, errors.Wrap(db.Error,"fail to get nome")
 	}
 	return OS, nil
 }
@@ -29,7 +30,7 @@ func GetNome(db *gorm.DB, nome string) ([]OS, error) {
 // DeleteID ...
 func DeleteID(db *gorm.DB, id int) error {
 	if db.Delete(OS{}, "id = ?", id); db.Error != nil {
-		return db.Error
+		return errors.Wrap(db.Error,"fail delete")
 	}
 	return nil
 }
@@ -55,8 +56,17 @@ func Insert(db *gorm.DB, OS OS) (OS, error) {
 
 	db.Create(&result)
 	if db.Error != nil {
-		return result, db.Error
+		return result, errors.Wrap(db.Error,"fail insert")
 	}
 
 	return result, nil
+}
+
+// Update ...
+func Update(db *gorm.DB,os OS) error {
+	db.Save(&os)
+	if db.Error != nil {
+		return errors.Wrap(db.Error, "fail update")
+	}
+	return nil
 }
