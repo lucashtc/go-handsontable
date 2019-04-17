@@ -1,9 +1,9 @@
 package main
 
 import (
-	"log"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/lucashtc/go-handsontable/app/db"
+	"log"
 
 	"github.com/jinzhu/gorm"
 )

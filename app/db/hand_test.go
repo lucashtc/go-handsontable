@@ -14,6 +14,10 @@ func conn() *gorm.DB {
 	if err != nil {
 		log.Fatal(err)
 	}
+	if conn.Error != nil {
+		log.Fatal(conn.Error)
+	}
+	
 	return conn
 }
 func TestGetAll(t *testing.T) {
