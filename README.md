@@ -1,2 +1,3 @@
 # go-handsontable
-handsontable
+Projeto usando handsontable e alguns bancos relacionais
+https://github.com/handsontable/handsontable
