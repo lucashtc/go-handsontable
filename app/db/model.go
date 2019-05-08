@@ -11,3 +11,11 @@ type OS struct {
 	NomeCliente string
 	Cnpj14      int
 }
+
+// User ...
+type User struct {
+	gorm.Model
+	User string
+	Password string
+}
+

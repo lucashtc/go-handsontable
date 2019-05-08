@@ -51,8 +51,8 @@ func Get(db *gorm.DB, f map[string]interface{}) (*[]OS, error) {
 }
 
 // Insert ...
-func Insert(db *gorm.DB, OS OS) (OS, error) {
-	result := OS
+func Insert(db *gorm.DB, os OS) (OS, error) {
+	result := os
 
 	db.Create(&result)
 	if db.Error != nil {
@@ -67,6 +67,17 @@ func Update(db *gorm.DB,os OS) error {
 	db.Save(&os)
 	if db.Error != nil {
 		return errors.Wrap(db.Error, "fail update")
+	}
+	return nil
+}
+
+// Login ...
+func Login(db *gorm.DB, user User) error {
+	result := &[]User{}
+	db.Where("user = ? AND password = ?",user.User, user.Password).Find(result)
+
+	if len(*result) == 0 || db.Error != nil {
+		return errors.Wrap(db.Error, "User not found")
 	}
 	return nil
 }
